@@ -12,8 +12,8 @@ public class GarbageScheduleController {
 	@Autowired
     private GarbageScheduleService garbageScheduleService;
 
-	@RequestMapping("/")
+	@RequestMapping("/garbage")
     public String index() {
-		return garbageScheduleService.getType();
+		return garbageScheduleService.getTypesToday();
     }
 }
