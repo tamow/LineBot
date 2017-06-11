@@ -15,12 +15,12 @@ public class GarbageScheduleService {
     private GarbageScheduleDao garbageScheduleDao;
 
     public String getTypesToday() {
-    	Integer dayOfTheWeek = LocalDateTime.now().getDayOfWeek().getValue();
+    	int dayOfTheWeek = LocalDateTime.now().getDayOfWeek().getValue();
         List<String> types = garbageScheduleDao.selectTypes(dayOfTheWeek);
         return String.join(System.getProperty("line.separator"), types);
     }
 
-    public String getTypes(Integer dayOfTheWeek) {
+    public String getTypes(int dayOfTheWeek) {
         List<String> types = garbageScheduleDao.selectTypes(dayOfTheWeek);
         return String.join(System.getProperty("line.separator"), types);
     }
