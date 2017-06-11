@@ -17,6 +17,9 @@ apply plugin: 'org.springframework.boot'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
 
+processResources.destinationDir = compileJava.destinationDir
+compileJava.dependsOn processResources
+
 repositories {
 	mavenCentral()
 }
@@ -24,5 +27,9 @@ repositories {
 
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
+    compile('org.springframework:spring-jdbc')
+    compile('org.seasar.doma.boot:doma-spring-boot-starter:1.1.0')
+	compile('org.projectlombok:lombok:1.16.16')
+    runtime('org.postgresql:postgresql')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
