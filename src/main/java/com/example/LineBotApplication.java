@@ -26,11 +26,13 @@ public class LineBotApplication {
 
 	@EventMapping
     public Message handleTextMessageEvent(MessageEvent<TextMessageContent> event) {
+        System.out.println("event: " + event);
 		return controller.reply(event.getMessage().getText());
     }
     
     @EventMapping
     public Message handleStickerMessage(MessageEvent<StickerMessageContent> event) {
+        System.out.println("event: " + event);
     	return controller.replyStickerMessage();
     }
 
