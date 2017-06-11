@@ -26,6 +26,8 @@ repositories {
 
 
 dependencies {
+	compile('com.linecorp.bot:line-bot-spring-boot:1.8.0')
+	compile('com.linecorp.bot:line-bot-api-client:1.8.0')
 	compile('org.springframework.boot:spring-boot-starter-web')
     compile('org.springframework:spring-jdbc')
     compile('org.seasar.doma.boot:doma-spring-boot-starter:1.1.0')
