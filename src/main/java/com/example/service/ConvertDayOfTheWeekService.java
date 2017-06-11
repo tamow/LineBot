@@ -1,7 +1,8 @@
 package com.example.service;
 
 import java.time.DayOfWeek;
-import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 import org.springframework.stereotype.Service;
 
@@ -10,29 +11,31 @@ public class ConvertDayOfTheWeekService {
 
     public int convert(String inputText) {
 
+		ZonedDateTime now = ZonedDateTime.now(ZoneId.of("Asia/Tokyo"));
+
     	switch(inputText.toUpperCase()) {
     	case "一昨日":
     	case "おととい":
     	case "DAY BEFORE YESTERDAY":
-        	return LocalDateTime.now().minusDays(2).getDayOfWeek().getValue();
+        	return now.minusDays(2).getDayOfWeek().getValue();
     	case "昨日":
     	case "きのう":
     	case "YESTERDAY":
-        	return LocalDateTime.now().minusDays(1).getDayOfWeek().getValue();
+        	return now.minusDays(1).getDayOfWeek().getValue();
  	   	case "今日":
     	case "きょう":
     	case "本日":
     	case "ほんじつ":
     	case "TODAY":
-        	return LocalDateTime.now().getDayOfWeek().getValue();
+        	return now.getDayOfWeek().getValue();
     	case "明日":
     	case "あした":
     	case "TOMORROW":
-        	return LocalDateTime.now().plusDays(1).getDayOfWeek().getValue();
+        	return now.plusDays(1).getDayOfWeek().getValue();
     	case "明後日":
     	case "あさって":
     	case "DAY AFTER TOMORROW":
-        	return LocalDateTime.now().plusDays(2).getDayOfWeek().getValue();
+        	return now.plusDays(2).getDayOfWeek().getValue();
     	case "月":
     	case "月曜":
     	case "月曜日":

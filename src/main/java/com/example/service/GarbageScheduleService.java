@@ -21,14 +21,11 @@ public class GarbageScheduleService {
     public Message getMessage(int dayOfTheWeek) {
 
         DayOfWeek week = DayOfWeek.of(dayOfTheWeek);
-    	String outputText = week.getDisplayName(TextStyle.FULL, Locale.JAPAN) + "は";
+    	String outputText = week.getDisplayName(TextStyle.FULL, Locale.JAPAN) + "は...";
     	outputText += System.getProperty("line.separator");
 
     	List<String> types = gsDao.selectTypes(dayOfTheWeek);
         outputText += String.join(System.getProperty("line.separator"), types);
-        outputText += System.getProperty("line.separator");
-        
-        outputText += "の日です。";
         		
         return new TextMessage(outputText);
     }
