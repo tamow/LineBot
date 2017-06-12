@@ -22,22 +22,22 @@ public class GarbageScheduleService {
     public Message getMessage(int dayOfWeek) {
 
         DayOfWeek week = DayOfWeek.of(dayOfWeek);
-    	String outputText = week.getDisplayName(TextStyle.FULL, Locale.JAPAN) + "は...🚮";
+    	String outputText = week.getDisplayName(TextStyle.FULL, Locale.JAPAN) + "は￼￼￼￼￼￼￼￼￼￼￼💡";
     	outputText += System.getProperty("line.separator");
 
     	List<String> types = gsDao.selectItems(dayOfWeek);
-        outputText += String.join(System.getProperty("line.separator"), types);
+        outputText += String.join(System.getProperty("line.separator") + "🗑", types);
         		
         return new TextMessage(outputText);
     }
 
     public Message getTodayMessage(ZonedDateTime today) {
 
-    	String outputText = "今日は...🚮";
+    	String outputText = "今日は😧";
     	outputText += System.getProperty("line.separator");
 
     	List<String> types = gsDao.selectItems(today.getDayOfWeek().getValue());
-        outputText += String.join(System.getProperty("line.separator"), types);
+        outputText += String.join(System.getProperty("line.separator") + "🗑", types);
         		
         return new TextMessage(outputText);
     }
