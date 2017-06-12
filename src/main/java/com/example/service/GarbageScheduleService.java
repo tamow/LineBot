@@ -21,15 +21,13 @@ public class GarbageScheduleService {
 
     public Message getMessage(int dayOfWeek) {
         DayOfWeek week = DayOfWeek.of(dayOfWeek);
-    	String outputText = week.getDisplayName(TextStyle.FULL, Locale.JAPAN) + "は😮";
-    	outputText += System.getProperty("line.separator");
+    	String outputText = week.getDisplayName(TextStyle.FULL, Locale.JAPAN) + "は";
 		outputText += getItems(dayOfWeek);		
         return new TextMessage(outputText);
     }
 
     public Message getTodayMessage(ZonedDateTime today) {
-    	String outputText = "今日は😧";
-    	outputText += System.getProperty("line.separator");
+    	String outputText = "今日は";
 		outputText += getItems(today.getDayOfWeek().getValue());		
         return new TextMessage(outputText);
     }
@@ -39,7 +37,7 @@ public class GarbageScheduleService {
     	if (items.isEmpty()) {
     		return "休みだよ(´･Д･)」";
     	} else {
-    		return "・" + String.join(System.getProperty("line.separator") + "・", items);
+    		return "😮" + System.getProperty("line.separator") + "・" + String.join(System.getProperty("line.separator") + "・", items);
     	}
 
     }
