@@ -36,7 +36,7 @@ public class GarbageScheduleService {
 
     private String getItems(int dayOfWeek){
     	List<String> items = gsDao.selectItems(dayOfWeek);
-    	if (items == null) {
+    	if (items.isEmpty()) {
     		return "休みだよ(´･Д･)」";
     	} else {
     		return "・" + String.join(System.getProperty("line.separator") + "・", items);
