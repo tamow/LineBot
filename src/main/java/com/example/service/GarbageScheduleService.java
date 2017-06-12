@@ -29,7 +29,6 @@ public class GarbageScheduleService {
 
     public Message getTodayMessage(ZonedDateTime today) {
     	String outputText = "今日は😧";
-    	outputText += System.getProperty("line.separator") + "・";
     	outputText += System.getProperty("line.separator");
 		outputText += getItems(today.getDayOfWeek().getValue());		
         return new TextMessage(outputText);
