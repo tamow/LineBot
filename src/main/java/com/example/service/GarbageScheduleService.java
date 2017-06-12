@@ -20,26 +20,28 @@ public class GarbageScheduleService {
     private GarbageScheduleDao gsDao;
 
     public Message getMessage(int dayOfWeek) {
-
         DayOfWeek week = DayOfWeek.of(dayOfWeek);
-    	String outputText = week.getDisplayName(TextStyle.FULL, Locale.JAPAN) + "は￼￼￼￼￼￼￼￼￼￼￼🙂";
+    	String outputText = week.getDisplayName(TextStyle.FULL, Locale.JAPAN) + "は😮";
     	outputText += System.getProperty("line.separator");
-
-    	List<String> types = gsDao.selectItems(dayOfWeek);
-        outputText += String.join(System.getProperty("line.separator"), types);
-        		
+		outputText += getItems(dayOfWeek);		
         return new TextMessage(outputText);
     }
 
     public Message getTodayMessage(ZonedDateTime today) {
-
     	String outputText = "今日は😧";
+    	outputText += System.getProperty("line.separator") + "・";
     	outputText += System.getProperty("line.separator");
-
-    	List<String> types = gsDao.selectItems(today.getDayOfWeek().getValue());
-        outputText += String.join(System.getProperty("line.separator"), types);
-        		
+		outputText += getItems(today.getDayOfWeek().getValue());		
         return new TextMessage(outputText);
     }
 
+    private String getItems(int dayOfWeek){
+    	List<String> items = gsDao.selectItems(dayOfWeek);
+    	if (items == null) {
+    		return "休みだよ(´･Д･)」";
+    	} else {
+    		return "・" + String.join(System.getProperty("line.separator") + "・", items);
+    	}
+
+    }
 }
