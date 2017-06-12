@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 
 import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.StickerMessage;
-import com.linecorp.bot.model.message.TextMessage;
 
 @Service
 public class StickMessageService {
@@ -21,9 +20,8 @@ public class StickMessageService {
         	return new StickerMessage("2", "145");
         case 3:
         	return new StickerMessage("2", "149");
-        case 4:
+        default:
         	return new StickerMessage("2", "173");
         }
-        return new TextMessage("???");
     }
 }

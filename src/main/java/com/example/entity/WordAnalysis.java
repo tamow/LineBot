@@ -6,8 +6,8 @@ import lombok.Data;
 
 @Data
 @Entity
-public class GarbageSchedule {
+public class WordAnalysis {
 
-	private Integer dayOfWeek;
-	private String  item;
+	private String  word;
+	private Integer type;
 }

@@ -1,6 +1,7 @@
 package com.example.service;
 
 import java.time.DayOfWeek;
+import java.time.ZonedDateTime;
 import java.time.format.TextStyle;
 import java.util.List;
 import java.util.Locale;
@@ -18,15 +19,27 @@ public class GarbageScheduleService {
     @Autowired
     private GarbageScheduleDao gsDao;
 
-    public Message getMessage(int dayOfTheWeek) {
+    public Message getMessage(int dayOfWeek) {
 
-        DayOfWeek week = DayOfWeek.of(dayOfTheWeek);
-    	String outputText = week.getDisplayName(TextStyle.FULL, Locale.JAPAN) + "は...";
+        DayOfWeek week = DayOfWeek.of(dayOfWeek);
+    	String outputText = week.getDisplayName(TextStyle.FULL, Locale.JAPAN) + "は-";
     	outputText += System.getProperty("line.separator");
 
-    	List<String> types = gsDao.selectTypes(dayOfTheWeek);
+    	List<String> types = gsDao.selectItems(dayOfWeek);
         outputText += String.join(System.getProperty("line.separator"), types);
         		
         return new TextMessage(outputText);
     }
+
+    public Message getTodayMessage(ZonedDateTime today) {
+
+    	String outputText = "今日は...";
+    	outputText += System.getProperty("line.separator");
+
+    	List<String> types = gsDao.selectItems(today.getDayOfWeek().getValue());
+        outputText += String.join(System.getProperty("line.separator"), types);
+        		
+        return new TextMessage(outputText);
+    }
+
 }

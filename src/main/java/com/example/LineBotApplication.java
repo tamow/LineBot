@@ -1,5 +1,7 @@
 package com.example;
 
+import java.time.ZoneId;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -26,18 +28,15 @@ public class LineBotApplication {
 
 	@EventMapping
     public Message handleTextMessageEvent(MessageEvent<TextMessageContent> event) {
-        System.out.println("event: " + event);
-		return controller.reply(event.getMessage().getText());
+		return controller.reply(event.getMessage().getText().trim(), event.getTimestamp().atZone(ZoneId.of("Asia/Tokyo")));
     }
     
     @EventMapping
     public Message handleStickerMessage(MessageEvent<StickerMessageContent> event) {
-        System.out.println("event: " + event);
     	return controller.replyStickerMessage();
     }
 
     @EventMapping
     public void handleDefaultMessageEvent(Event event) {
-        System.out.println("event: " + event);
     }
 }
