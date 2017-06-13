@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import java.net.URISyntaxException;
 import java.time.ZonedDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class LineBotController {
 	@Autowired
 	private HiraganaService hiraganaService;
 
-	public Message reply(String word, ZonedDateTime dateTime) {
+	public Message reply(String word, ZonedDateTime dateTime) throws URISyntaxException {
 		return new TextMessage(hiraganaService.convertToHiragana(word));
 //		int dayOfWeek = waService.getDayOfWeek(word, dateTime);
 //		if (dayOfWeek == -1) {
