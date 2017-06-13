@@ -9,5 +9,5 @@ import lombok.Data;
 public class GarbageSchedule {
 
 	private Integer dayOfWeek;
-	private String  item;
+	private String item;
 }

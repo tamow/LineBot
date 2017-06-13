@@ -25,36 +25,36 @@ public class WordAnalysisService {
 	private final int DAY_AFTER_TOMORROW = 12;
 
 	@Autowired
-    private WordAnalysisDao waDao;
+	private WordAnalysisDao waDao;
 
-    public int getDayOfWeek(String word, ZonedDateTime dateTime) {
+	public int getDayOfWeek(String word, ZonedDateTime dateTime) {
 
-    	switch(waDao.selectType(word.toUpperCase())) {
-    	case MONDAY:
-    		return DayOfWeek.MONDAY.getValue();
-    	case TUESDAY:
-    		return DayOfWeek.TUESDAY.getValue();
-    	case WEDNESDAY:
-    		return DayOfWeek.WEDNESDAY.getValue();
-    	case THURSDAY:
-    		return DayOfWeek.THURSDAY.getValue();
-    	case FRIDAY:
-    		return DayOfWeek.FRIDAY.getValue();
-    	case SATURDAY:
-    		return DayOfWeek.SATURDAY.getValue();
-    	case SUNDAY:
-    		return DayOfWeek.SUNDAY.getValue();
-    	case DAY_BEFORE_YESTERDAY:
-    		return dateTime.minusDays(2).getDayOfWeek().getValue();
-    	case YESTERDAY:
-        	return dateTime.minusDays(1).getDayOfWeek().getValue();
-    	case TODAY:
-        	return dateTime.getDayOfWeek().getValue();
-    	case TOMORROW:
-        	return dateTime.plusDays(1).getDayOfWeek().getValue();
-    	case DAY_AFTER_TOMORROW:    	
-        	return dateTime.plusDays(2).getDayOfWeek().getValue();
-    	}
-    	return -1;
-    }
+		switch (waDao.selectType(word.toUpperCase())) {
+		case MONDAY:
+			return DayOfWeek.MONDAY.getValue();
+		case TUESDAY:
+			return DayOfWeek.TUESDAY.getValue();
+		case WEDNESDAY:
+			return DayOfWeek.WEDNESDAY.getValue();
+		case THURSDAY:
+			return DayOfWeek.THURSDAY.getValue();
+		case FRIDAY:
+			return DayOfWeek.FRIDAY.getValue();
+		case SATURDAY:
+			return DayOfWeek.SATURDAY.getValue();
+		case SUNDAY:
+			return DayOfWeek.SUNDAY.getValue();
+		case DAY_BEFORE_YESTERDAY:
+			return dateTime.minusDays(2).getDayOfWeek().getValue();
+		case YESTERDAY:
+			return dateTime.minusDays(1).getDayOfWeek().getValue();
+		case TODAY:
+			return dateTime.getDayOfWeek().getValue();
+		case TOMORROW:
+			return dateTime.plusDays(1).getDayOfWeek().getValue();
+		case DAY_AFTER_TOMORROW:
+			return dateTime.plusDays(2).getDayOfWeek().getValue();
+		}
+		return -1;
+	}
 }

@@ -16,29 +16,31 @@ import com.linecorp.bot.model.message.TextMessage;
 @Service
 public class GarbageScheduleService {
 
-    @Autowired
-    private GarbageScheduleDao gsDao;
+	@Autowired
+	private GarbageScheduleDao gsDao;
 
-    public Message getMessage(int dayOfWeek) {
-        DayOfWeek week = DayOfWeek.of(dayOfWeek);
-    	String outputText = week.getDisplayName(TextStyle.FULL, Locale.JAPAN) + "は";
-		outputText += getItems(dayOfWeek);		
-        return new TextMessage(outputText);
-    }
+	public Message getMessage(int dayOfWeek) {
+		DayOfWeek week = DayOfWeek.of(dayOfWeek);
+		String outputText = week.getDisplayName(TextStyle.FULL, Locale.JAPAN);
+		outputText += getItems(dayOfWeek);
+		return new TextMessage(outputText);
+	}
 
-    public Message getTodayMessage(ZonedDateTime today) {
-    	String outputText = "今日は";
-		outputText += getItems(today.getDayOfWeek().getValue());		
-        return new TextMessage(outputText);
-    }
+	public Message getTodayMessage(ZonedDateTime today) {
+		DayOfWeek week = today.getDayOfWeek();
+		String outputText = "今日(" + week.getDisplayName(TextStyle.SHORT, Locale.JAPAN) + ")";
+		outputText += getItems(week.getValue());
+		return new TextMessage(outputText);
+	}
 
-    private String getItems(int dayOfWeek){
-    	List<String> items = gsDao.selectItems(dayOfWeek);
-    	if (items.isEmpty()) {
-    		return "休みだよ(´･Д･)」";
-    	} else {
-    		return "😮" + System.getProperty("line.separator") + "・" + String.join(System.getProperty("line.separator") + "・", items);
-    	}
+	private String getItems(int dayOfWeek) {
+		List<String> items = gsDao.selectItems(dayOfWeek);
+		if (items.isEmpty()) {
+			return "休みだよ(´･Д･)」";
+		} else {
+			return System.getProperty("line.separator") + "・"
+					+ String.join(System.getProperty("line.separator") + "・", items);
+		}
 
-    }
+	}
 }

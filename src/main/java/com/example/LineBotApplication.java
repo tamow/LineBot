@@ -20,23 +20,24 @@ import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
 public class LineBotApplication {
 
 	@Autowired
-    private LineBotController controller;
+	private LineBotController controller;
 
 	public static void main(String[] args) {
 		SpringApplication.run(LineBotApplication.class, args);
 	}
 
 	@EventMapping
-    public Message handleTextMessageEvent(MessageEvent<TextMessageContent> event) {
-		return controller.reply(event.getMessage().getText().trim(), event.getTimestamp().atZone(ZoneId.of("Asia/Tokyo")));
-    }
-    
-    @EventMapping
-    public Message handleStickerMessage(MessageEvent<StickerMessageContent> event) {
-    	return controller.replyStickerMessage();
-    }
+	public Message handleTextMessageEvent(MessageEvent<TextMessageContent> event) {
+		return controller.reply(event.getMessage().getText().trim(),
+				event.getTimestamp().atZone(ZoneId.of("Asia/Tokyo")));
+	}
 
-    @EventMapping
-    public void handleDefaultMessageEvent(Event event) {
-    }
+	@EventMapping
+	public Message handleStickerMessage(MessageEvent<StickerMessageContent> event) {
+		return controller.replyStickerMessage();
+	}
+
+	@EventMapping
+	public void handleDefaultMessageEvent(Event event) {
+	}
 }

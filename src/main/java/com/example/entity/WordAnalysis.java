@@ -8,6 +8,6 @@ import lombok.Data;
 @Entity
 public class WordAnalysis {
 
-	private String  word;
+	private String word;
 	private Integer type;
 }
