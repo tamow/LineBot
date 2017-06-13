@@ -28,9 +28,9 @@ public class HiraganaService {
 		}
 
 		HiraganaRequestDto body = new HiraganaRequestDto();
-		body.setAppId("5d6a00e3c13dd4cadde7e775c6440848ef32a696fa6e13b5c1ad23ce10db1b2e");
-		body.setRequestId("record003");
-		body.setOutputType("hiragana");
+		body.setApp_id("5d6a00e3c13dd4cadde7e775c6440848ef32a696fa6e13b5c1ad23ce10db1b2e");
+		body.setRequest_id("record003");
+		body.setOutput_type("hiragana");
 		body.setSentence(word);
 
 		RequestEntity<HiraganaRequestDto> req = RequestEntity.post(uri).contentType(MediaType.APPLICATION_JSON)

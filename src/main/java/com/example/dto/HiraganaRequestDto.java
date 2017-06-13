@@ -5,8 +5,8 @@ import lombok.Data;
 @Data
 public class HiraganaRequestDto {
 
-	private String appId;
-	private String requestId;
-	private String outputType;
+	private String app_id;
+	private String request_id;
+	private String output_type;
 	private String sentence;
 }
