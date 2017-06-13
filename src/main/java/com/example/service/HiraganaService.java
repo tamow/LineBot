@@ -11,9 +11,6 @@ import com.example.dto.HiraganaResponseDto;
 @Service
 public class HiraganaService {
 
-	@Autowired
-	private RestTemplate restTemplate;
-
 	public String convertToHiragana(String word) {
 
 		String url = "https://labs.goo.ne.jp/api/hiragana";
@@ -24,7 +21,7 @@ public class HiraganaService {
 		req.setOutputType("hiragana");
 		req.setSentence(word);
 
-		HiraganaResponseDto res = restTemplate.postForObject(url, req, HiraganaResponseDto.class);
+		HiraganaResponseDto res = new RestTemplate().postForObject(url, req, HiraganaResponseDto.class);
 		
 		return res.getConverted();
 	}
