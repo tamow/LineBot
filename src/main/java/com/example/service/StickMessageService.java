@@ -24,4 +24,9 @@ public class StickMessageService {
 			return new StickerMessage("2", "173");
 		}
 	}
+	
+	public Message getQuestionMessage() {
+		return new StickerMessage("2", "145");
+	}
+	
 }

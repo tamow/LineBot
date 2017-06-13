@@ -1,6 +1,5 @@
 package com.example.controller;
 
-
 import java.net.URISyntaxException;
 import java.time.ZonedDateTime;
 
@@ -17,29 +16,34 @@ import com.linecorp.bot.model.message.Message;
 public class LineBotController {
 
 	@Autowired
-    private WordAnalysisService waService;
+	private WordAnalysisService waService;
 
 	@Autowired
-    private GarbageScheduleService gsService;
+	private GarbageScheduleService gsService;
 
 	@Autowired
-    private StickMessageService smService;
+	private StickMessageService smService;
 
 	@Autowired
-    private HiraganaService hiraganaService;
+	private HiraganaService hiraganaService;
 
-    public Message reply(String word, ZonedDateTime dateTime) throws URISyntaxException {
-    	
-    	String hiragana = hiraganaService.convertToHiragana(word);
-    	
-		int dayOfWeek = waService.getDayOfWeek(hiragana, dateTime);
-		if (dayOfWeek == -1) {
-			return gsService.getTodayMessage(dateTime);
+	public Message reply(String word, ZonedDateTime dateTime) throws URISyntaxException {
+
+		int dayOfWeek = waService.getDayOfWeek(word, dateTime);
+		if (dayOfWeek != -1) {
+			return gsService.getMessage(dayOfWeek);
 		}
-		return gsService.getMessage(dayOfWeek);
-    }
-    
-    public Message replyStickerMessage() {
+
+		String hiragana = hiraganaService.convertToHiragana(word);
+		dayOfWeek = waService.getDayOfWeek(hiragana, dateTime);
+		if (dayOfWeek != -1) {
+			return gsService.getMessage(dayOfWeek);
+		}
+
+		return smService.getQuestionMessage();
+	}
+
+	public Message replyStickerMessage() {
 		return smService.getRandomMessage();
 	}
 }
