@@ -28,15 +28,9 @@ public class LineBotApplication {
 	}
 
 	@EventMapping
-	public Message handleTextMessageEvent(MessageEvent<TextMessageContent> event) {
-		try {
-			return controller.reply(event.getMessage().getText().trim(),
-					event.getTimestamp().atZone(ZoneId.of("Asia/Tokyo")));
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
+	public Message handleTextMessageEvent(MessageEvent<TextMessageContent> event) throws URISyntaxException {
+		return controller.reply(event.getMessage().getText().trim(),
+				event.getTimestamp().atZone(ZoneId.of("Asia/Tokyo")));
 	}
 
 	@EventMapping

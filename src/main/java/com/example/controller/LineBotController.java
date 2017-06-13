@@ -1,5 +1,6 @@
 package com.example.controller;
 
+
 import java.net.URISyntaxException;
 import java.time.ZonedDateTime;
 
@@ -11,33 +12,34 @@ import com.example.service.HiraganaService;
 import com.example.service.StickMessageService;
 import com.example.service.WordAnalysisService;
 import com.linecorp.bot.model.message.Message;
-import com.linecorp.bot.model.message.TextMessage;
 
 @Controller
 public class LineBotController {
 
 	@Autowired
-	private WordAnalysisService waService;
+    private WordAnalysisService waService;
 
 	@Autowired
-	private GarbageScheduleService gsService;
+    private GarbageScheduleService gsService;
 
 	@Autowired
-	private StickMessageService smService;
-	
+    private StickMessageService smService;
+
 	@Autowired
-	private HiraganaService hiraganaService;
+    private HiraganaService hiraganaService;
 
-	public Message reply(String word, ZonedDateTime dateTime) throws URISyntaxException {
-		return new TextMessage(hiraganaService.convertToHiragana(word));
-//		int dayOfWeek = waService.getDayOfWeek(word, dateTime);
-//		if (dayOfWeek == -1) {
-//			return gsService.getTodayMessage(dateTime);
-//		}
-//		return gsService.getMessage(dayOfWeek);
-	}
-
-	public Message replyStickerMessage() {
+    public Message reply(String word, ZonedDateTime dateTime) throws URISyntaxException {
+    	
+    	String hiragana = hiraganaService.convertToHiragana(word);
+    	
+		int dayOfWeek = waService.getDayOfWeek(hiragana, dateTime);
+		if (dayOfWeek == -1) {
+			return gsService.getTodayMessage(dateTime);
+		}
+		return gsService.getMessage(dayOfWeek);
+    }
+    
+    public Message replyStickerMessage() {
 		return smService.getRandomMessage();
 	}
 }

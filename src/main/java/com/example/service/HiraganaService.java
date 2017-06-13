@@ -17,15 +17,9 @@ import com.example.dto.HiraganaResponseDto;
 @Service
 public class HiraganaService {
 
-	public String convertToHiragana(String word) {
+	public String convertToHiragana(String word) throws URISyntaxException {
 
-		URI uri = null;
-		try {
-			uri = new URI("https://labs.goo.ne.jp/api/hiragana");
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		URI uri =  new URI("https://labs.goo.ne.jp/api/hiragana");
 
 		HiraganaRequestDto body = new HiraganaRequestDto();
 		body.setApp_id("5d6a00e3c13dd4cadde7e775c6440848ef32a696fa6e13b5c1ad23ce10db1b2e");

@@ -29,7 +29,9 @@ public class WordAnalysisService {
 
 	public int getDayOfWeek(String word, ZonedDateTime dateTime) {
 
-		switch (waDao.selectType(word.toUpperCase())) {
+		int tpye = waDao.selectType(word.toUpperCase());
+
+		switch (tpye) {
 		case MONDAY:
 			return DayOfWeek.MONDAY.getValue();
 		case TUESDAY:
@@ -54,7 +56,8 @@ public class WordAnalysisService {
 			return dateTime.plusDays(1).getDayOfWeek().getValue();
 		case DAY_AFTER_TOMORROW:
 			return dateTime.plusDays(2).getDayOfWeek().getValue();
+		default:
+			return -1;
 		}
-		return -1;
 	}
 }
