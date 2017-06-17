@@ -29,7 +29,7 @@ public class WordAnalysisService {
 
 	public int getDayOfWeek(String word, ZonedDateTime dateTime) {
 
-		int tpye = waDao.selectType(word.toUpperCase());
+		int tpye = waDao.selectType(word.trim().toUpperCase());
 
 		switch (tpye) {
 		case MONDAY:

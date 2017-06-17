@@ -29,7 +29,7 @@ public class LineBotApplication {
 
 	@EventMapping
 	public Message handleTextMessageEvent(MessageEvent<TextMessageContent> event) throws URISyntaxException {
-		return controller.reply(event.getMessage().getText().trim(),
+		return controller.reply(event.getMessage().getText(),
 				event.getTimestamp().atZone(ZoneId.of("Asia/Tokyo")));
 	}
 
