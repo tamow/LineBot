@@ -2,10 +2,12 @@ package com.example.controller;
 
 import java.net.URISyntaxException;
 import java.time.ZonedDateTime;
+import java.util.Comparator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import com.example.dto.LuisEntity;
 import com.example.dto.LuisResponseDto;
 import com.example.service.GarbageScheduleService;
 import com.example.service.LuisService;
@@ -31,13 +33,12 @@ public class LineBotController {
 	public Message reply(String input, ZonedDateTime dateTime) throws URISyntaxException {
 
 		LuisResponseDto luisRes = luisService.verifyDay(input);
-		String word = luisRes.getTopScoringIntent().getIntent();
+		String word = luisRes.getEntities().stream().sorted(Comparator.comparingDouble(LuisEntity::getScore)).findFirst().get().getEntity();
 		
 		int dayOfWeek = waService.getDayOfWeek(word, dateTime);
 		if (dayOfWeek != -1) {
 			return gsService.getMessage(dayOfWeek);
 		}
-
 		return smService.getQuestionMessage();
 	}
 
