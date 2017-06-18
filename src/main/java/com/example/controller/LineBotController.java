@@ -3,6 +3,7 @@ package com.example.controller;
 import java.net.URISyntaxException;
 import java.time.ZonedDateTime;
 import java.util.Comparator;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,16 +31,19 @@ public class LineBotController {
 	@Autowired
 	private LuisService luisService;
 
-	public Message reply(String input, ZonedDateTime dateTime) throws URISyntaxException {
+	public Message reply(String text, ZonedDateTime dateTime) throws URISyntaxException {
 
-		LuisResponseDto luisRes = luisService.verifyDay(input);
-		String word = luisRes.getEntities().stream().sorted(Comparator.comparingDouble(LuisEntity::getScore)).findFirst().get().getEntity();
-		
+		LuisResponseDto luisRes = luisService.verifyDay(text);
+		Optional<LuisEntity> luisEntity = luisRes.getEntities().stream().sorted(Comparator.comparingDouble(LuisEntity::getScore)).findFirst();
+        if(!luisEntity.isPresent()) {
+    		return smService.getQuestionMessage();
+        }
+    	String word = luisEntity.get().getEntity();
 		int dayOfWeek = waService.getDayOfWeek(word, dateTime);
-		if (dayOfWeek != -1) {
-			return gsService.getMessage(dayOfWeek);
+		if (dayOfWeek == -1) {
+			return smService.getQuestionMessage();
 		}
-		return smService.getQuestionMessage();
+		return gsService.getMessage(dayOfWeek);
 	}
 
 	public Message replyStickerMessage() {
