@@ -1,7 +1,6 @@
 package com.example.service;
 
 import java.time.DayOfWeek;
-import java.time.ZonedDateTime;
 import java.time.format.TextStyle;
 import java.util.List;
 import java.util.Locale;
@@ -21,16 +20,9 @@ public class GarbageScheduleService {
 
 	public Message getMessage(int dayOfWeek) {
 		DayOfWeek week = DayOfWeek.of(dayOfWeek);
-		String outputText = week.getDisplayName(TextStyle.FULL, Locale.JAPAN);
-		outputText += getItems(dayOfWeek);
-		return new TextMessage(outputText);
-	}
-
-	public Message getTodayMessage(ZonedDateTime today) {
-		DayOfWeek week = today.getDayOfWeek();
-		String outputText = "今日(" + week.getDisplayName(TextStyle.SHORT, Locale.JAPAN) + ")";
-		outputText += getItems(week.getValue());
-		return new TextMessage(outputText);
+		String text = week.getDisplayName(TextStyle.FULL, Locale.JAPAN);
+		text += getItems(dayOfWeek);
+		return new TextMessage(text);
 	}
 
 	private String getItems(int dayOfWeek) {
@@ -41,6 +33,13 @@ public class GarbageScheduleService {
 			return System.getProperty("line.separator") + "・"
 					+ String.join(System.getProperty("line.separator") + "・", items);
 		}
+	}
 
+	public Message getSchedule() {
+		String text = null;
+		for (int dayOfWeek = DayOfWeek.MONDAY.getValue(); dayOfWeek <= DayOfWeek.SUNDAY.getValue(); dayOfWeek++) {
+			text += ((TextMessage) getMessage(dayOfWeek)).getText();
+		}
+		return new TextMessage(text);
 	}
 }

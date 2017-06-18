@@ -16,7 +16,7 @@ public class LuisService {
 	@Autowired
 	private RestTemplate restTemplate;
 
-	public LuisResponseDto verifyDay(String query) throws URISyntaxException {
+	public LuisResponseDto luis(String query) throws URISyntaxException {
 
 		URI uri = new URI(
 				"https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/cbd1c897-28c1-4f9c-97b4-b3217b3c9198?subscription-key=5e61e3ba9a68483c9b92bdc58bfadb19&timezoneOffset=540&verbose=true&q="
