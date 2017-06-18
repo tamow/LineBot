@@ -39,7 +39,7 @@ public class GarbageScheduleService {
 		String schedule = "";
 		for (int dayOfWeek = DayOfWeek.MONDAY.getValue(); dayOfWeek <= DayOfWeek.SUNDAY.getValue(); dayOfWeek++) {
 			DayOfWeek week = DayOfWeek.of(dayOfWeek);
-			schedule += week.getDisplayName(TextStyle.FULL, Locale.JAPAN) + System.getProperty("line.separator");
+			schedule += "[" + week.getDisplayName(TextStyle.FULL, Locale.JAPAN) + "]" + System.getProperty("line.separator");
 			List<String> items = gsDao.selectItems(dayOfWeek);
 			if (items.isEmpty()) {
 				schedule += "休み" + System.getProperty("line.separator");
