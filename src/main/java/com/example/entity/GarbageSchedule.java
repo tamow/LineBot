@@ -7,7 +7,6 @@ import lombok.Data;
 @Data
 @Entity
 public class GarbageSchedule {
-
 	private Integer dayOfWeek;
 	private String item;
 }

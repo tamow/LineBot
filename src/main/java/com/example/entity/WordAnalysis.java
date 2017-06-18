@@ -7,7 +7,6 @@ import lombok.Data;
 @Data
 @Entity
 public class WordAnalysis {
-
 	private String word;
 	private Integer type;
 }

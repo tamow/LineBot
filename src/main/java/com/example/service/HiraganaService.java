@@ -3,6 +3,7 @@ package com.example.service;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,9 @@ import com.example.dto.HiraganaResponseDto;
 
 @Service
 public class HiraganaService {
+
+	@Autowired
+	private RestTemplate restTemplate;
 
 	public String convertToHiragana(String word) throws URISyntaxException {
 
@@ -28,7 +32,7 @@ public class HiraganaService {
 		RequestEntity<HiraganaRequestDto> req = RequestEntity.post(uri).contentType(MediaType.APPLICATION_JSON)
 				.body(body);
 
-		ResponseEntity<HiraganaResponseDto> res = new RestTemplate().exchange(req, HiraganaResponseDto.class);
+		ResponseEntity<HiraganaResponseDto> res = restTemplate.exchange(req, HiraganaResponseDto.class);
 
 		return res.getBody().getConverted();
 	}
