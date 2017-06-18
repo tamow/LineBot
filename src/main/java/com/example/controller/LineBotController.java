@@ -34,11 +34,15 @@ public class LineBotController {
 	public Message reply(String text, ZonedDateTime dateTime) throws URISyntaxException {
 
 		LuisResponseDto luisRes = luisService.luis(text);
-		Optional<LuisEntity> luisEntity = luisRes.getEntities().stream().sorted(Comparator.comparingDouble(LuisEntity::getScore)).findFirst();
-        if(!luisEntity.isPresent()) {
-    		return smService.getQuestionMessage();
-        }
-    	String word = luisEntity.get().getEntity();
+		if ("verifySchedule".equals(luisRes.getTopScoringIntent().getIntent())) {
+			return gsService.getSchedule();
+		}
+		Optional<LuisEntity> luisEntity = luisRes.getEntities().stream()
+				.sorted(Comparator.comparingDouble(LuisEntity::getScore)).findFirst();
+		if (!luisEntity.isPresent()) {
+			return smService.getQuestionMessage();
+		}
+		String word = luisEntity.get().getEntity();
 		int dayOfWeek = waService.getDayOfWeek(word, dateTime);
 		if (dayOfWeek == -1) {
 			return smService.getQuestionMessage();
