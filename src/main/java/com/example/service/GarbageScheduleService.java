@@ -36,10 +36,17 @@ public class GarbageScheduleService {
 	}
 
 	public Message getSchedule() {
-		String text = null;
+		String schedule = "";
 		for (int dayOfWeek = DayOfWeek.MONDAY.getValue(); dayOfWeek <= DayOfWeek.SUNDAY.getValue(); dayOfWeek++) {
-			text += ((TextMessage) getMessage(dayOfWeek)).getText();
+			DayOfWeek week = DayOfWeek.of(dayOfWeek);
+			schedule += week.getDisplayName(TextStyle.FULL, Locale.JAPAN) + System.getProperty("line.separator");
+			List<String> items = gsDao.selectItems(dayOfWeek);
+			if (items.isEmpty()) {
+				schedule += "休み" + System.getProperty("line.separator");
+			} else {
+				schedule += String.join(", ", items) + System.getProperty("line.separator");
+			}
 		}
-		return new TextMessage(text);
+		return new TextMessage(schedule);
 	}
 }
