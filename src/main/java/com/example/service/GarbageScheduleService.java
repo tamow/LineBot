@@ -47,6 +47,6 @@ public class GarbageScheduleService {
 				schedule += String.join(", ", items) + System.getProperty("line.separator");
 			}
 		}
-		return new TextMessage(schedule);
+		return new TextMessage(schedule.trim());
 	}
 }
