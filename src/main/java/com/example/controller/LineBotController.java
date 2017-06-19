@@ -4,6 +4,7 @@ import java.net.URISyntaxException;
 import java.time.ZonedDateTime;
 import java.util.Comparator;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,8 @@ import com.linecorp.bot.model.message.Message;
 
 @Controller
 public class LineBotController {
+
+	private static final String SCHEDULE_INTENT = "verifySchedule";
 
 	@Autowired
 	private WordAnalysisService waService;
@@ -34,11 +37,11 @@ public class LineBotController {
 	public Message reply(String text, ZonedDateTime dateTime) throws URISyntaxException {
 
 		LuisResponseDto luisRes = luisService.luis(text);
-		if ("verifySchedule".equals(luisRes.getTopScoringIntent().getIntent())) {
+		if (SCHEDULE_INTENT.equals(luisRes.getTopScoringIntent().getIntent())) {
 			return gsService.getSchedule();
 		}
-		Optional<LuisEntity> luisEntity = luisRes.getEntities().stream()
-				.sorted(Comparator.comparingDouble(LuisEntity::getScore)).findFirst();
+		Optional<LuisEntity> luisEntity = luisRes.getEntities().stream().filter(p -> "day".equals(p.getType()))
+				.sorted(Comparator.comparingDouble(LuisEntity::getScore).reversed()).findFirst();
 		if (!luisEntity.isPresent()) {
 			return smService.getQuestionMessage();
 		}
