@@ -4,7 +4,6 @@ import java.net.URISyntaxException;
 import java.time.ZonedDateTime;
 import java.util.Comparator;
 import java.util.Optional;
-import java.util.function.Predicate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
