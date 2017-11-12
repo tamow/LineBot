@@ -11,6 +11,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.auth.ClasspathPropertiesFileCredentialsProvider;
 import com.amazonaws.services.rekognition.AmazonRekognitionClient;
 import com.amazonaws.services.rekognition.model.DetectLabelsRequest;
@@ -63,7 +64,9 @@ public class LineBotApplication {
 			request.withImage(new Image().withBytes(ByteBuffer.wrap(IOUtils.toByteArray(is))));
 	        request.withMaxLabels(5);
 
-			AWSCredentials credential = new ClasspathPropertiesFileCredentialsProvider().getCredentials();
+//			AWSCredentials credential = new ClasspathPropertiesFileCredentialsProvider().getCredentials();
+			AWSCredentials credential = new BasicAWSCredentials("AKIAJLYOZ3J77LGL3FCA", "825UKRtO9iYB3vQmN+3OBpZiYDCpYkxcx/W5qJOv");
+			
 	        AmazonRekognitionClient client = new AmazonRekognitionClient(credential);
 	        DetectLabelsResult result = client.detectLabels(request);
 	        ObjectMapper objectMapper = new ObjectMapper();
