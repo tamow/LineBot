@@ -74,7 +74,7 @@ public class LineBotApplication {
 	        List<Label> labels = result.getLabels();
 	        String res = "";
 	        for (Label label: labels) {
-	            res += label.getName() + ": " + label.getConfidence().toString() + "¥n";
+	            res += label.getName() + ": " + Math.round(label.getConfidence()) + "%¥n";
 	        }
 	        return new TextMessage(res);
 
