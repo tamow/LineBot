@@ -5,6 +5,7 @@ import java.net.URISyntaxException;
 import java.nio.ByteBuffer;
 import java.time.ZoneId;
 
+import org.springframework.aop.ThrowsAdvice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -55,7 +56,7 @@ public class LineBotApplication {
 	}
 
 	@EventMapping
-    public Message handleImageMessageEvent(MessageEvent<ImageMessageContent> event) {
+    public Message handleImageMessageEvent(MessageEvent<ImageMessageContent> event) throws Exception {
 		try {
 			InputStream is = lineMessagingClient.getMessageContent(event.getMessage().getId()).get().getStream();
 	        DetectLabelsRequest request = new DetectLabelsRequest();
@@ -69,9 +70,9 @@ public class LineBotApplication {
 			return new TextMessage(objectMapper.writeValueAsString(result));
 
 		} catch (Exception e1) {
-			e1.printStackTrace();
+			throw e1;
 		}
-		return new TextMessage("結果なし");
+//		return new TextMessage("結果なし");
     }
 
 	@EventMapping
