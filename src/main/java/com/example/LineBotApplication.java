@@ -64,7 +64,7 @@ public class LineBotApplication {
 			InputStream is = lineMessagingClient.getMessageContent(event.getMessage().getId()).get().getStream();
 	        DetectLabelsRequest request = new DetectLabelsRequest();
 			request.withImage(new Image().withBytes(ByteBuffer.wrap(IOUtils.toByteArray(is))));
-	        request.withMaxLabels(5);
+//	        request.withMaxLabels(5);
 
 //			AWSCredentials credential = new ClasspathPropertiesFileCredentialsProvider().getCredentials();
 			AWSCredentials credential = new BasicAWSCredentials("AKIAJLYOZ3J77LGL3FCA", "825UKRtO9iYB3vQmN+3OBpZiYDCpYkxcx/W5qJOv");
@@ -74,7 +74,7 @@ public class LineBotApplication {
 	        List<Label> labels = result.getLabels();
 	        String res = "";
 	        for (Label label: labels) {
-	            res += label.getName() + ": " + Math.round(label.getConfidence()) + "%¥n";
+	            res += label.getName() + ": " + Math.round(label.getConfidence()) + "%0x0A";
 	        }
 	        return new TextMessage(res);
 
