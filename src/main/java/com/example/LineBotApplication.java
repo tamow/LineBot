@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.nio.ByteBuffer;
 import java.time.ZoneId;
+import java.util.List;
 
 import org.springframework.aop.ThrowsAdvice;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import com.amazonaws.services.rekognition.AmazonRekognitionClient;
 import com.amazonaws.services.rekognition.model.DetectLabelsRequest;
 import com.amazonaws.services.rekognition.model.DetectLabelsResult;
 import com.amazonaws.services.rekognition.model.Image;
+import com.amazonaws.services.rekognition.model.Label;
 import com.amazonaws.util.IOUtils;
 import com.example.controller.LineBotController;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -69,8 +71,12 @@ public class LineBotApplication {
 			
 	        AmazonRekognitionClient client = new AmazonRekognitionClient(credential);
 	        DetectLabelsResult result = client.detectLabels(request);
-	        ObjectMapper objectMapper = new ObjectMapper();
-			return new TextMessage(objectMapper.writeValueAsString(result));
+	        List<Label> labels = result.getLabels();
+	        String res = "";
+	        for (Label label: labels) {
+	            res += label.getName() + ": " + label.getConfidence().toString() + "¥n";
+	        }
+	        return new TextMessage(res);
 
 		} catch (Exception e1) {
 			throw e1;
