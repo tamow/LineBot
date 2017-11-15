@@ -6,14 +6,13 @@ import java.nio.ByteBuffer;
 import java.time.ZoneId;
 import java.util.List;
 
-import org.springframework.aop.ThrowsAdvice;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.auth.ClasspathPropertiesFileCredentialsProvider;
 import com.amazonaws.services.rekognition.AmazonRekognitionClient;
 import com.amazonaws.services.rekognition.model.DetectLabelsRequest;
 import com.amazonaws.services.rekognition.model.DetectLabelsResult;
@@ -21,7 +20,6 @@ import com.amazonaws.services.rekognition.model.Image;
 import com.amazonaws.services.rekognition.model.Label;
 import com.amazonaws.util.IOUtils;
 import com.example.controller.LineBotController;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.model.event.Event;
 import com.linecorp.bot.model.event.MessageEvent;
@@ -42,6 +40,12 @@ public class LineBotApplication {
 	
 	@Autowired
 	private LineBotController controller;
+
+	@Value("${aws.accessKey}")
+	String accessKey;
+	
+	@Value("${aws.secretKey}")
+	String secretKey;
 
 	public static void main(String[] args) {
 		SpringApplication.run(LineBotApplication.class, args);
@@ -64,10 +68,8 @@ public class LineBotApplication {
 			InputStream is = lineMessagingClient.getMessageContent(event.getMessage().getId()).get().getStream();
 	        DetectLabelsRequest request = new DetectLabelsRequest();
 			request.withImage(new Image().withBytes(ByteBuffer.wrap(IOUtils.toByteArray(is))));
-//	        request.withMaxLabels(5);
 
-//			AWSCredentials credential = new ClasspathPropertiesFileCredentialsProvider().getCredentials();
-			AWSCredentials credential = new BasicAWSCredentials("AKIAJLYOZ3J77LGL3FCA", "825UKRtO9iYB3vQmN+3OBpZiYDCpYkxcx/W5qJOv");
+			AWSCredentials credential = new BasicAWSCredentials(accessKey, secretKey);
 			
 	        AmazonRekognitionClient client = new AmazonRekognitionClient(credential);
 	        DetectLabelsResult result = client.detectLabels(request);
@@ -81,7 +83,6 @@ public class LineBotApplication {
 		} catch (Exception e1) {
 			throw e1;
 		}
-//		return new TextMessage("結果なし");
     }
 
 	@EventMapping
