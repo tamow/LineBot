@@ -28,21 +28,20 @@ public class GarbageScheduleService {
 		if (items.isEmpty()) {
 			return DayOfWeek.of(dayOfWeek).getDisplayName(TextStyle.FULL, Locale.JAPAN) + "は休みだよ(´･Д･)」";
 		} else {
-			return String.join(System.getProperty("line.separator") + "・", items);
+			return String.join(System.getProperty("line.separator"), items);
 		}
 	}
 
 	public Message getSchedule() {
 		String schedule = "";
 		for (int dayOfWeek = DayOfWeek.MONDAY.getValue(); dayOfWeek <= DayOfWeek.SUNDAY.getValue(); dayOfWeek++) {
-			String prefix = DayOfWeek.of(dayOfWeek).getDisplayName(TextStyle.SHORT, Locale.JAPAN) + " : ";
+			DayOfWeek week = DayOfWeek.of(dayOfWeek);
+			schedule += "[" + week.getDisplayName(TextStyle.FULL, Locale.JAPAN) + "]" + System.getProperty("line.separator");
 			List<String> items = gsDao.selectItems(dayOfWeek);
 			if (items.isEmpty()) {
-				schedule += prefix + "休み" + System.getProperty("line.separator");
+				schedule += "休み" + System.getProperty("line.separator");
 			} else {
-				for (String item : items) {
-					schedule += prefix + item + System.getProperty("line.separator");
-				}
+				schedule += String.join(", ", items) + System.getProperty("line.separator");
 			}
 		}
 		return new TextMessage(schedule.trim());
