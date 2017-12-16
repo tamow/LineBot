@@ -19,32 +19,30 @@ public class GarbageScheduleService {
 	private GarbageScheduleDao gsDao;
 
 	public Message getMessage(int dayOfWeek) {
-		DayOfWeek week = DayOfWeek.of(dayOfWeek);
-		String text = week.getDisplayName(TextStyle.FULL, Locale.JAPAN);
-		text += getItems(dayOfWeek);
+		String text = getItems(dayOfWeek);
 		return new TextMessage(text);
 	}
 
 	private String getItems(int dayOfWeek) {
 		List<String> items = gsDao.selectItems(dayOfWeek);
 		if (items.isEmpty()) {
-			return "は休みだよ(´･Д･)」";
+			return DayOfWeek.of(dayOfWeek).getDisplayName(TextStyle.FULL, Locale.JAPAN) + "は休みだよ(´･Д･)」";
 		} else {
-			return System.getProperty("line.separator") + "・"
-					+ String.join(System.getProperty("line.separator") + "・", items);
+			return String.join(System.getProperty("line.separator") + "・", items);
 		}
 	}
 
 	public Message getSchedule() {
 		String schedule = "";
 		for (int dayOfWeek = DayOfWeek.MONDAY.getValue(); dayOfWeek <= DayOfWeek.SUNDAY.getValue(); dayOfWeek++) {
-			DayOfWeek week = DayOfWeek.of(dayOfWeek);
-			schedule += "[" + week.getDisplayName(TextStyle.FULL, Locale.JAPAN) + "]" + System.getProperty("line.separator");
+			String prefix = DayOfWeek.of(dayOfWeek).getDisplayName(TextStyle.SHORT, Locale.JAPAN) + " : ";
 			List<String> items = gsDao.selectItems(dayOfWeek);
 			if (items.isEmpty()) {
-				schedule += "休み" + System.getProperty("line.separator");
+				schedule += prefix + "休み" + System.getProperty("line.separator");
 			} else {
-				schedule += String.join(", ", items) + System.getProperty("line.separator");
+				for (String item : items) {
+					schedule += prefix + item + System.getProperty("line.separator");
+				}
 			}
 		}
 		return new TextMessage(schedule.trim());

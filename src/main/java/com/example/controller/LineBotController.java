@@ -36,7 +36,8 @@ public class LineBotController {
 	public Message reply(String text, ZonedDateTime dateTime) throws URISyntaxException {
 
 		LuisResponseDto luisRes = luisService.luis(text);
-		if (SCHEDULE_INTENT.equals(luisRes.getTopScoringIntent().getIntent())) {
+		// 予定表
+		if (SCHEDULE_INTENT.equals(luisRes.getTopScoringIntent().getIntent()) && luisRes.getTopScoringIntent().getScore() > 0.9) {
 			return gsService.getSchedule();
 		}
 		Optional<LuisEntity> luisEntity = luisRes.getEntities().stream().filter(p -> "day".equals(p.getType()))
@@ -44,6 +45,7 @@ public class LineBotController {
 		if (!luisEntity.isPresent()) {
 			return smService.getQuestionMessage();
 		}
+		// 曜日
 		String word = luisEntity.get().getEntity();
 		int dayOfWeek = waService.getDayOfWeek(word, dateTime);
 		if (dayOfWeek == -1) {

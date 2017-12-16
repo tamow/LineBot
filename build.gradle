@@ -31,8 +31,8 @@ dependencies {
 	compile("org.springframework.boot:spring-boot-starter-web")
 	compile("org.springframework:spring-jdbc")
 	compile("org.seasar.doma.boot:doma-spring-boot-starter:1.1.0")
-	compile("org.projectlombok:lombok:1.16.16")
 	compile("com.amazonaws:aws-java-sdk:1.11.62")
+	compileOnly("org.projectlombok:lombok:1.16.18")
 	runtime("org.postgresql:postgresql")
 	testCompile("org.springframework.boot:spring-boot-starter-test")
 }
