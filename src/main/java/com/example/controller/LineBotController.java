@@ -83,6 +83,6 @@ public class LineBotController {
 		for (String item : items) {
 			res += tService.translate(item) + System.getProperty("line.separator");
 		}
-		return new TextMessage(items.toString());
+		return new TextMessage(res);
 	}
 }
