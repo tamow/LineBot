@@ -67,10 +67,9 @@ public class LineBotController {
 			}
 			Optional<LuisEntity> luisEntity = luisRes.getEntities().stream().filter(p -> "day".equals(p.getType()))
 					.sorted(Comparator.comparingDouble(LuisEntity::getScore).reversed()).findFirst();
-			if (!luisEntity.isPresent()) {
-				return smService.getQuestionMessage();
+			if (luisEntity.isPresent()) {
+				word = luisEntity.get().getEntity();
 			}
-			word = luisEntity.get().getEntity();
 		}
 		// 曜日
 		int dayOfWeek = waService.getDayOfWeek(word, dateTime);
