@@ -95,7 +95,7 @@ public class LineBotController {
 			String res = separationService.search(ja);
 			if (res != null) {
 				text += res;
-				if (++count >= 5) break;
+				if (++count >= 3) break;
 			}
 		}
 		return new TextMessage(text);
