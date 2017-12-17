@@ -18,7 +18,9 @@ public class GarbageSeparationService {
 		if (elements.size() >= 2) {
 			String item = elements.get(1).text();
 			elements = document.getElementsByClass("item_desc");
-			return "[" + item + "]" + System.getProperty("line.separator") + elements.get(1).select("a").text() + System.getProperty("line.separator");
+			return "[" + item + "]" + System.getProperty("line.separator")
+				+ elements.get(1).select("a").text() + System.getProperty("line.separator")
+				+ elements.get(1).select("a").attr("href") + System.getProperty("line.separator");
 		}
 		return null;
 	}
