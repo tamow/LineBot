@@ -37,7 +37,6 @@ public class RekognitionService {
 		AmazonRekognitionClient client = new AmazonRekognitionClient(credential);
 		DetectLabelsResult result = client.detectLabels(request);
 		List<Label> labels = result.getLabels();
-		System.out.println(labels.toString());
 		if (labels == null || labels.isEmpty()) {
 			return null;
 		}
