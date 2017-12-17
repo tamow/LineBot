@@ -79,7 +79,7 @@ public class LineBotController {
 		}
 		
 		String res = separationService.search(text);
-		if (res !=null) {
+		if (res != null) {
 			return new TextMessage(res);
 		}
 

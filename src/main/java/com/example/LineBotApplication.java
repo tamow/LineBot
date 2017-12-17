@@ -1,5 +1,6 @@
 package com.example;
 
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.time.ZoneId;
 
@@ -29,7 +30,7 @@ public class LineBotApplication {
 	}
 
 	@EventMapping
-	public Message handleTextMessageEvent(MessageEvent<TextMessageContent> event) throws URISyntaxException {
+	public Message handleTextMessageEvent(MessageEvent<TextMessageContent> event) throws URISyntaxException, IOException {
 		return controller.replyTextMessage(event.getMessage().getText(), event.getTimestamp().atZone(ZoneId.of("Asia/Tokyo")));
 	}
 
