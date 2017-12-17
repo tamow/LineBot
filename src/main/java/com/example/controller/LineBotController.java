@@ -90,7 +90,7 @@ public class LineBotController {
 		
 		String res = "";
 		for (String item : items) {
-			String url = "http://cgi.city.yokohama.lg.jp/shigen/bunbetsu/search2.html?txt=" + URLEncoder.encode(msService.translate(item), "UTF-8") + "&lang=ja";
+			String url = "http://cgi.city.yokohama.lg.jp/shigen/bunbetsu/search2.html?txt=" + URLEncoder.encode(msService.translate(item), "windows-31j") + "&lang=ja";
 			System.out.println(url);
 			Document document = Jsoup.connect(url).get();
 			Elements elements = document.getElementsByClass("item_desc");
