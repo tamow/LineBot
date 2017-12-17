@@ -95,10 +95,10 @@ public class LineBotController {
 			System.out.println(url);
 			Document document = Jsoup.connect(url).get();
 			Elements elements = document.getElementsByClass("item_name");
-			String index = elements.text();
-			elements = document.getElementsByClass("item_desc");
 			if (elements.size() >= 2) {
-				res += ja + ":" + index + ":" + elements.select("a").text() + System.getProperty("line.separator");
+				String index = elements.get(1).text();
+				elements = document.getElementsByClass("item_desc");
+				res += ja + ":" + index + ":" + elements.get(1).select("a").text() + System.getProperty("line.separator");
 			}
 		}		
 		return new TextMessage(res);
