@@ -93,9 +93,9 @@ public class LineBotController {
 		for (String item : items) {
 			String ja = msService.translate(item);
 			String res = separationService.search(ja);
-			if (text != null) {
+			if (res != null) {
 				text += res;
-				if (++count > 5) break;
+				if (++count >= 5) break;
 			}
 		}
 		return new TextMessage(text);
