@@ -54,7 +54,7 @@ public class LineBotController {
 	@Autowired
 	private TranslationService msService;
 
-	public Message replyTextMessage(String text, ZonedDateTime dateTime) throws URISyntaxException {
+	public Message replyTextMessage(String text, ZonedDateTime dateTime) throws URISyntaxException, IOException {
 
 		String word = "";
 		if ("今日は？".equals(text)) {
@@ -74,10 +74,16 @@ public class LineBotController {
 		}
 		// 曜日
 		int dayOfWeek = waService.getDayOfWeek(word, dateTime);
-		if (dayOfWeek == -1) {
-			return smService.getQuestionMessage();
+		if (dayOfWeek != -1) {
+			return gsService.getMessage(dayOfWeek);
 		}
-		return gsService.getMessage(dayOfWeek);
+		
+		String res = separationService.search(text);
+		if (res !=null) {
+			return new TextMessage(res);
+		}
+
+		return smService.getQuestionMessage();
 	}
 
 	public Message replyStickerMessage() {
