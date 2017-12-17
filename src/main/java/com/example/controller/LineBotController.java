@@ -90,12 +90,15 @@ public class LineBotController {
 		
 		String res = "";
 		for (String item : items) {
-			String url = "http://cgi.city.yokohama.lg.jp/shigen/bunbetsu/search2.html?txt=" + URLEncoder.encode(msService.translate(item), "windows-31j") + "&lang=ja";
+			String ja = URLEncoder.encode(msService.translate(item), "windows-31j");
+			String url = "http://cgi.city.yokohama.lg.jp/shigen/bunbetsu/search2.html?txt=" + ja + "&lang=ja";
 			System.out.println(url);
 			Document document = Jsoup.connect(url).get();
-			Elements elements = document.getElementsByClass("item_desc");
+			Elements elements = document.getElementsByClass("item_name");
+			String index = elements.text();
+			elements = document.getElementsByClass("item_desc");
 			if (elements.size() >= 2) {
-				res += item + ": " +elements.get(1) + System.getProperty("line.separator");
+				res += ja + ":" + index + ":" + elements.select("a").text() + System.getProperty("line.separator");
 			}
 		}		
 		return new TextMessage(res);
