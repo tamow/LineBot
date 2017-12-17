@@ -3,22 +3,19 @@ package com.example.controller;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
-import java.net.URLEncoder;
 import java.time.ZonedDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.example.dto.LuisEntity;
 import com.example.dto.LuisResponseDto;
 import com.example.service.GarbageScheduleService;
+import com.example.service.GarbageSeparationService;
 import com.example.service.LuisService;
 import com.example.service.RekognitionService;
 import com.example.service.StickMessageService;
@@ -41,6 +38,9 @@ public class LineBotController {
 
 	@Autowired
 	private GarbageScheduleService gsService;
+
+	@Autowired
+	private GarbageSeparationService separationService;
 
 	@Autowired
 	private StickMessageService smService;
@@ -88,19 +88,16 @@ public class LineBotController {
 		InputStream is = lineMessagingClient.getMessageContent(messageId).get().getStream();
 		List<String> items = awsService.analyze(is);
 		
-		String res = "";
+		String text = "";
+		int count = 0;
 		for (String item : items) {
 			String ja = msService.translate(item);
-			String url = "http://cgi.city.yokohama.lg.jp/shigen/bunbetsu/search2.html?txt=" + URLEncoder.encode(ja, "windows-31j") + "&lang=ja";
-			System.out.println(url);
-			Document document = Jsoup.connect(url).get();
-			Elements elements = document.getElementsByClass("item_name");
-			if (elements.size() >= 2) {
-				String index = elements.get(1).text();
-				elements = document.getElementsByClass("item_desc");
-				res += ja + ":" + index + ":" + elements.get(1).select("a").text() + System.getProperty("line.separator");
+			String res = separationService.search(ja);
+			if (text != null) {
+				text += res;
+				if (++count > 5) break;
 			}
-		}		
-		return new TextMessage(res);
+		}
+		return new TextMessage(text);
 	}
 }
