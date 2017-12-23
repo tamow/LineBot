@@ -120,6 +120,9 @@ public class LineBotController {
 		int count = 0;
 		for (String item : items) {
 			String ja = translationService.translate(item);
+			if (text.contains("[" + ja + "]")) {
+				continue;
+			}
 			String res = separationService.search(ja, 1);
 			if (res != null) {
 				text += res;
