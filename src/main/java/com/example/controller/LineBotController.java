@@ -119,8 +119,6 @@ public class LineBotController {
 		String text = "";
 		int count = 0;
 		for (String item : items) {
-			// 家具は曖昧すぎるため対象外にする
-			if ("Furniture".equals(item)) continue;
 			String ja = translationService.translate(item);
 			String res = separationService.search(ja, 1);
 			if (res != null) {

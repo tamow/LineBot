@@ -12,6 +12,11 @@ import org.springframework.stereotype.Service;
 public class GarbageSeparationService {
 
 	public String search(String text, int max) throws IOException {
+		// 家具は曖昧すぎるため対象外にする
+		if ("家具".equals(text)) {
+			return null;
+		}
+
 		String url = "http://cgi.city.yokohama.lg.jp/shigen/bunbetsu/search2.html?txt=" + URLEncoder.encode(text, "windows-31j") + "&lang=ja";
 		Document document = Jsoup.connect(url).get();
 		Elements itemNames = document.getElementsByClass("item_name");
@@ -22,7 +27,7 @@ public class GarbageSeparationService {
 
 		String res = "";
 		Elements itemDescs = document.getElementsByClass("item_desc");
-		for (int i = 1; i <= max || i <= itemCount; i++) {
+		for (int i = 1; i <= max && i <= itemCount; i++) {
 			String itemName = itemNames.get(i).text();
 			String itemDesc = (itemDescs.get(i).select("a").text().isEmpty() ? itemDescs.get(i).text(): itemDescs.get(i).select("a").text());
 			String itemUrl = itemDescs.get(i).select("a").attr("href");
