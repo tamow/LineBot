@@ -13,7 +13,7 @@ import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.TextMessage;
 
 @Service
-public class GarbageScheduleService {
+public class ScheduleService {
 
 	@Autowired
 	private GarbageScheduleDao gsDao;
